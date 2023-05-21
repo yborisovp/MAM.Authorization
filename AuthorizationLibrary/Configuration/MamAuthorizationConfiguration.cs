@@ -18,7 +18,6 @@ namespace AuthorizationLibrary.Configuration;
 /// </summary>
 public static class MamAuthorizationConfiguration
 {
-    private const string DatabaseConnectionString = "Host=localhost;Port=5432; Include Error Detail=true; Database=MAM.Web";
     /// <summary>
     /// Добавление конфигурации в сборщик
     /// </summary>
@@ -29,8 +28,13 @@ public static class MamAuthorizationConfiguration
         var jwtOptions = configurationManager.GetSection(JwtOptions.OptionsKey);
         serviceCollection.Configure<JwtOptions>(jwtOptions);
         
-        serviceCollection.AddScoped<IAuthorizationDatabaseContextFactory>(_ => new AuthorizationDatabaseContextFactory(DatabaseConnectionString));
-        serviceCollection.AddDbContext<AuthorizationDatabaseContext>(options => options.UseNpgsql(DatabaseConnectionString,
+        var authorizationDatabaseOptions = configurationManager.GetSection(AuthorizationDatabaseOptions.DefaultName).Get<AuthorizationDatabaseOptions>();
+        if (authorizationDatabaseOptions is null)
+        {
+            throw new ArgumentNullException(nameof(authorizationDatabaseOptions));
+        }
+        serviceCollection.AddScoped<IAuthorizationDatabaseContextFactory>(_ => new AuthorizationDatabaseContextFactory(authorizationDatabaseOptions.ConnectionString));
+        serviceCollection.AddDbContext<AuthorizationDatabaseContext>(options => options.UseNpgsql(authorizationDatabaseOptions.ConnectionString,
             x => x.MigrationsHistoryTable(
                 AuthorizationDatabaseContext.DefaultMigrationHistoryTableName,
                 AuthorizationDatabaseContext.AuthorizationSchema

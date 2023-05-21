@@ -1,4 +1,12 @@
-#Миграции для библиотеки
+Этот пакет разработан в рамках дипломной работы Борисова Ярослава Павловича, студента кафедры МОП ЭВМ
+
+Он является частью сервиса по покупке и продаже автомобилей и предоставляет возможность авторизовывать пользователя.
+
+This package was developed as part of the thesis of Yaroslav Borisov.
+
+It is part of the service for buying and selling cars and provides an opportunity to authorize the user.
+
+# Миграции для библиотеки
 
 Создатьь ммиграцию
 ```
