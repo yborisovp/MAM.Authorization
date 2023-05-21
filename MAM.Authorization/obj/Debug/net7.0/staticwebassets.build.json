@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "CoOXAzZ2urtNO4HdVXi6Cw2rlxz5FszkOI1rnU2mpcU=",
+  "Source": "MAM.Authorization",
+  "BasePath": "_content/MAM.Authorization",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

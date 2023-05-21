@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAM.Authorization", "MAM.Authorization\MAM.Authorization.csproj", "{05FDD822-C639-4BA2-9631-B9936784E063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizationLibrary", "AuthorizationLibrary\AuthorizationLibrary.csproj", "{195BB262-15F1-4C2B-8600-1280E3379A73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05FDD822-C639-4BA2-9631-B9936784E063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05FDD822-C639-4BA2-9631-B9936784E063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05FDD822-C639-4BA2-9631-B9936784E063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05FDD822-C639-4BA2-9631-B9936784E063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{195BB262-15F1-4C2B-8600-1280E3379A73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195BB262-15F1-4C2B-8600-1280E3379A73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195BB262-15F1-4C2B-8600-1280E3379A73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195BB262-15F1-4C2B-8600-1280E3379A73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

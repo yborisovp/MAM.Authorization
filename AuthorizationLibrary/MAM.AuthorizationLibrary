@@ -1,0 +1,482 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AuthorizationLibrary</name>
+    </assembly>
+    <members>
+        <member name="F:AuthorizationLibrary.Configuration.JwtOptions.OptionsKey">
+            <summary>
+            секция в настройкаъ
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Configuration.JwtOptions.Key">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Configuration.MamAuthorizationConfiguration">
+            <summary>
+            Класс для применения конфигурации
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Configuration.MamAuthorizationConfiguration.AddMamAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.ConfigurationManager)">
+            <summary>
+            Добавление конфигурации в сборщик
+            </summary>
+            <param name="serviceCollection"></param>
+            <param name="configurationManager"></param>
+        </member>
+        <member name="T:AuthorizationLibrary.Context.AuthorizationDatabaseContext">
+            <summary>
+            Контекст для взаимодействия с базой данных пользователя
+            </summary>
+        </member>
+        <member name="F:AuthorizationLibrary.Context.AuthorizationDatabaseContext.AuthorizationSchema">
+            <summary>
+            Описание схемы 
+            </summary>
+        </member>
+        <member name="F:AuthorizationLibrary.Context.AuthorizationDatabaseContext.DefaultMigrationHistoryTableName">
+            <summary>
+            Имя таблицы, в которую будут записываться миграции
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Context.AuthorizationDatabaseContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions)">
+            <summary>
+            Конструктор контекста
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="P:AuthorizationLibrary.Context.AuthorizationDatabaseContext.Users">
+            <summary>
+            Пользователи
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.UserDto">
+            <summary>
+            DTO ползователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UserDto.FullName">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UserDto.RegistrationDate">
+            <summary>
+            Дата регистрации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UserDto.LastModifiedDate">
+            <summary>
+            Дата последнего изменения данных о пользователе
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UserDto.LastEnteredAt">
+            <summary>
+            Дата последнего входа
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UserDto.AdditionalInfo">
+            <summary>
+            Дополнительная информация о пользователе
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.RegisterUserDto">
+            <summary>
+            DTO для регистрации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.RegisterUserDto.Email">
+            <summary>
+            Электронная почта
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.ThirdPartyRegistration">
+            <summary>
+            Регистрация с помощью внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.ThirdPartyRegistration.AuthorizationType">
+            <summary>
+            Тип внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.ThirdPartyRegistration.OAuthToken">
+            <summary>
+            Токен внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.ThirdPartyRegistration.OAuthClientId">
+            <summary>
+            Уникальный идентификатор клиента во внешней системе
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.ThirdPartyAuthorizationType">
+            <summary>
+            Поддерживаемые типы авторизации
+            </summary>
+        </member>
+        <member name="F:AuthorizationLibrary.Dtos.ThirdPartyAuthorizationType.Google">
+            <summary>
+            Google
+            </summary>
+        </member>
+        <member name="F:AuthorizationLibrary.Dtos.ThirdPartyAuthorizationType.Yandex">
+            <summary>
+            Яндекс
+            </summary>
+        </member>
+        <member name="F:AuthorizationLibrary.Dtos.ThirdPartyAuthorizationType.Vk">
+            <summary>
+            Вконтакте
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.PasswordRegistration">
+            <summary>
+            Регистрация с паролем
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.PasswordRegistration.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UpdateUserDto.Name">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UpdateUserDto.SecondName">
+            <summary>
+            Фамилия пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.UpdateUserDto.AdditionalInfo">
+            <summary>
+            Дополнительная информация о пользователе
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.LoginUserDto">
+            <summary>
+            DTO для входа
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.LoginUserDto.Email">
+            <summary>
+            Электронная почта
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.ThirdPartyLogin">
+            <summary>
+            Вход с помощью внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.ThirdPartyLogin.OAuthToken">
+            <summary>
+            Токен внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.ThirdPartyLogin.OAuthClientId">
+            <summary>
+            Уникальный идентификатор клиента во внешней системе
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Dtos.PasswordLoginDto">
+            <summary>
+            Вход с паролем
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Dtos.PasswordLoginDto.Password">
+            <summary>
+            Пароль
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Interfaces.IAuthorizationService">
+            <summary>
+            Сервис для работы с авторизацией пользователя
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IAuthorizationService.GetAccessTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Получить токен доступа
+            </summary>
+            <param name="email">Электронная почта</param>
+            <param name="ct">Токен прерывания</param>
+            <returns>Токен авторизации</returns>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IAuthorizationService.RefreshTokenAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Обновить токен доступа
+            </summary>
+            <param name="refreshToken">Токен обновления</param>
+            <param name="email">Электронная почта</param>
+            <param name="ct">Токен прерывания</param>
+            <returns>Новый токен доступа</returns>
+        </member>
+        <member name="T:AuthorizationLibrary.Interfaces.IUserRepository">
+            <summary>
+            Интерфейс репозитория пользователей
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IUserRepository.GetUserByEmail(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Найти пользователя по email
+            </summary>
+            <param name="email">email пользователя</param>
+            <param name="ct">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IUserRepository.RegisterUserAsync(AuthorizationLibrary.Models.User,System.Threading.CancellationToken)">
+            <summary>
+            Зарегистрировать пользователя
+            </summary>
+            <param name="user">Модель пользователя</param>
+            <param name="ct">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IUserRepository.UpdateUserAsync(AuthorizationLibrary.Models.User,System.Threading.CancellationToken)">
+            <summary>
+            Обновить пользователя
+            </summary>
+            <param name="user">Модель пользователя</param>
+            <param name="ct">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="M:AuthorizationLibrary.Interfaces.IUserRepository.DeleteUserAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="id">ID пользователя</param>
+            <param name="ct">Токен отмены</param>
+            <returns></returns>
+        </member>
+        <member name="T:AuthorizationLibrary.Interfaces.IUserService">
+            <summary>
+            Интерфейс сервиса для взаимодействия с бд
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Mappings.UserMappings.DtoToDbUserMappings">
+            <summary>
+            Превести внешнюю модель пользователя в модельь для базы данных
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Mappings.UserMappings.DtoToDbUserMappings.ToModel(AuthorizationLibrary.Dtos.RegisterUserDto,System.String)">
+            <summary>
+            Превести внешнюю модель пользователя к модели регистрации
+            </summary>
+            <param name="registerUserDto"></param>
+            <param name="passwordHash"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="T:AuthorizationLibrary.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:AuthorizationLibrary.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuthorizationLibrary.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:AuthorizationLibrary.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:AuthorizationLibrary.Models.AuthorizationProviders.AuthorizationProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.AuthorizationProvider.Id">
+            <summary>
+            Уникальный идентификатор провайдера авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.AuthorizationProvider.UserCredentialId">
+            <summary>
+            Уникальный идентификатор пользовательских регистрационных данных
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Models.AuthorizationProviders.ExternalAuthorizationProvider">
+            <summary>
+            Авторизация с помощью внешних сервисов
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.ExternalAuthorizationProvider.AuthorizationType">
+            <summary>
+            Тип авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.ExternalAuthorizationProvider.OAuthToken">
+            <summary>
+            Токен внешней авторизации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.ExternalAuthorizationProvider.OAuthClientId">
+            <summary>
+            Уникальный идентификатор клиента во внешней системе
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Models.AuthorizationProviders.ExternalAuthorizationType">
+            <summary>
+            Типы поддерживаемой авторизации
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Models.AuthorizationProviders.PasswordAuthorizationProvider">
+            <summary>
+            Авторизация с помощью пароля
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.PasswordAuthorizationProvider.PasswordHash">
+            <summary>
+            Хеш пароля
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.AuthorizationProviders.PasswordAuthorizationProvider.LastModifiedTime">
+            <summary>
+            Дата последнего обновления пароля
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Models.User">
+            <summary>
+            Модель пользователя 
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.Id">
+            <summary>
+            Уникальный идентификатор пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.Name">
+            <summary>
+            Имя пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.SecondName">
+            <summary>
+            Фамилия пользователя
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.RegistrationDate">
+            <summary>
+            Дата регистрации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.LastModifiedDate">
+            <summary>
+            Дата последнего изменения данных о пользователе
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.LastEnteredAt">
+            <summary>
+            Дата последнего входа
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.AdditionalInfo">
+            <summary>
+            Дополнительная информация о пользователе
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.RefreshToken">
+            <summary>
+            Токен обновления
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.RefreshTokenExpirationDate">
+            <summary>
+            Время жизни токена обновления
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.User.Credentials">
+            <summary>
+            Виды пользовательской авторизации
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Models.UserCredential">
+            <summary>
+            Пользовательские данные для регистрации
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.UserCredential.Id">
+            <summary>
+            Уникальный идентификатор пользовательских регистрационных данных
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.UserCredential.Email">
+            <summary>
+            Электронная почта
+            </summary>
+        </member>
+        <member name="P:AuthorizationLibrary.Models.UserCredential.AuthorizationProviders">
+            <summary>
+            Провайдеры авторизации
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Repository.BaseRepository">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:AuthorizationLibrary.Services.AuthorizationService">
+            <summary>
+            Сервис авторизации
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.AuthorizationService.#ctor(AuthorizationLibrary.Interfaces.IUserRepository,AuthorizationLibrary.TokenGeneration.ITokenGenerator)">
+            <summary>
+            Конструктор сервиса авторизации
+            </summary>
+            <param name="userRepository"></param>
+            <param name="tokenGenerator"></param>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.AuthorizationService.GetAccessTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Авторизовать пользователя в текущем сервисе
+            </summary>
+            <param name="email"></param>
+            <param name="ct"></param>
+            <returns></returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.AuthorizationService.RefreshTokenAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Обновить токен пользователя для сервиса
+            </summary>
+            <param name="refreshToken"></param>
+            <param name="email"></param>
+            <param name="ct"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AuthorizationLibrary.Services.UserService">
+            <summary>
+            Сервис взаимодействия с пользователем
+            </summary>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.UserService.#ctor(AuthorizationLibrary.Interfaces.IUserRepository,WebApi.Services.Hasher.IPasswordHasher,AuthorizationLibrary.TokenGeneration.ITokenGenerator)">
+            <summary>
+            Конструктор сервиса для взаимодействия с данными пользователя
+            </summary>
+            <param name="userRepository"></param>
+            <param name="passwordHasher"></param>
+            <param name="tokenGenerator"></param>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.UserService.LoginUserAsync(AuthorizationLibrary.Dtos.LoginUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Авторизовать пользователя
+            </summary>
+            <param name="loginUserDto"></param>
+            <param name="ct"></param>
+            <returns></returns>
+            <exception cref="T:System.Collections.Generic.KeyNotFoundException"></exception>
+        </member>
+        <member name="M:AuthorizationLibrary.Services.UserService.RegisterUserAsync(AuthorizationLibrary.Dtos.RegisterUserDto,System.Threading.CancellationToken)">
+            <summary>
+            Зарегистрировать пользователя
+            </summary>
+            <param name="registerUserDto"></param>
+            <param name="ct"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
