@@ -2,10 +2,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AuthorizationLibrary.Context;
 
+/// <summary>
+/// Контекст БД авторизации 
+/// </summary>
 public class AuthorizationDatabaseContextFactory : IAuthorizationDatabaseContextFactory
 {
     private Func<string> ConnectionStringProvider { get; }
 
+    /// <summary>
+    /// Конструктор контекста
+    /// </summary>
+    /// <param name="connectionString"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public AuthorizationDatabaseContextFactory(string connectionString)
     {
         if (connectionString == null)
@@ -15,6 +23,10 @@ public class AuthorizationDatabaseContextFactory : IAuthorizationDatabaseContext
         ConnectionStringProvider = () => connectionString;
     }
     
+    /// <summary>
+    /// Создать контекст БД авторизации
+    /// </summary>
+    /// <returns></returns>
     public AuthorizationDatabaseContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<AuthorizationDatabaseContext>();

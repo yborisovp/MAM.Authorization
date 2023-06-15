@@ -2,6 +2,9 @@ using System.Security.Cryptography;
 
 namespace WebApi.Services.Hasher;
 
+/// <summary>
+/// Сервис хеширования паролей
+/// </summary>
 public class PasswordHasher : IPasswordHasher
 {
     private const int SaltSize = 128 / 8;
@@ -10,6 +13,11 @@ public class PasswordHasher : IPasswordHasher
     private static readonly HashAlgorithmName HashAlgorithmName = HashAlgorithmName.SHA256;
     private const char Delimiter = ';';
 
+    /// <summary>
+    /// Захешировать пароль
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public string Hash(string password)
     {
         var salt = RandomNumberGenerator.GetBytes(SaltSize);
@@ -18,6 +26,12 @@ public class PasswordHasher : IPasswordHasher
         return string.Join(Delimiter, Convert.ToBase64String(salt), Convert.ToBase64String(hash));
     }
     
+    /// <summary>
+    /// Подтвердить пароль
+    /// </summary>
+    /// <param name="passwordHash"></param>
+    /// <param name="inputPassword"></param>
+    /// <returns></returns>
     public bool Verify(string passwordHash, string inputPassword)
     {
         var elements = passwordHash.Split(Delimiter);

@@ -1,9 +1,12 @@
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using AuthorizationLibrary.Dtos;
 using AuthorizationLibrary.Interfaces;
 using AuthorizationLibrary.Mappings.UserMappings;
 using AuthorizationLibrary.Models;
 using AuthorizationLibrary.Models.AuthorizationProviders;
 using AuthorizationLibrary.TokenGeneration;
+using Microsoft.AspNetCore.Http;
 using WebApi.Services.Hasher;
 
 namespace AuthorizationLibrary.Services;
@@ -44,21 +47,27 @@ public class UserService : IUserService
         {
             throw new KeyNotFoundException($"Cannot found a user with email: '{loginUserDto.Email}'");
         }
-        if (loginUserDto is PasswordLoginDto passwordLoginDto)
+        switch (loginUserDto)
         {
-            var userPasswordCredentials = user.Credentials.Select(c => c.AuthorizationProviders).ToList();
-            var a = userPasswordCredentials.FirstOrDefault(c => c is PasswordAuthorizationProvider) as PasswordAuthorizationProvider;
-            if (userPasswordCredentials is null)
-            {
-                throw new KeyNotFoundException($"For user '{loginUserDto.Email}' password credentials doesn't not found");
-            }
+            case PasswordLoginDto passwordLoginDto:
+                {
+                    var userPasswordCredentials = user.Credentials.Select(c => c.AuthorizationProviders).ToList();
+                    var userPasswords = userPasswordCredentials.FirstOrDefault(c => c is PasswordAuthorizationProvider) as PasswordAuthorizationProvider;
+                    if (userPasswords is null)
+                    {
+                        throw new KeyNotFoundException($"For user '{loginUserDto.Email}' password credentials doesn't not found");
+                    }
             
-            var isPasswordValid = _passwordHasher.Verify(a.PasswordHash, passwordLoginDto.Password);
+                    var isPasswordValid = _passwordHasher.Verify(userPasswords.PasswordHash, passwordLoginDto.Password);
 
-            if (!isPasswordValid)
-            {
-                
-            }
+                    if (!isPasswordValid)
+                    {
+                        throw new KeyNotFoundException("Passwords do not match");
+                    }
+                    break;
+                }
+            case ThirdPartyLogin thirdPartyLogin:
+                throw new NotSupportedException("This functionality is not supported now");
         }
 
         var jwt = _tokenGenerator.GenerateJwt(user);
@@ -71,7 +80,42 @@ public class UserService : IUserService
         dto.RefreshToken = refreshToken.Token;
         return dto;
     }
-    
+    /// <summary>
+    /// Убрать пользователя из автроизации
+    /// </summary>
+    /// <param name="userClaims"></param>
+    /// <param name="ct"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="ValidationException"></exception>
+    public async Task LogoutUser(IEnumerable<Claim> userClaims, CancellationToken ct)
+    {
+        var userClaim = userClaims.FirstOrDefault( c => c.Type == "userId");
+        if (userClaim is null)
+        {
+            throw new ArgumentNullException(nameof(userClaim), "User claim in this point cannot be null");
+        }
+
+        if (long.TryParse(userClaim.Value, out var id))
+        {
+            await _userRepository.RevokeToken(id, ct);
+        }
+        else
+        {
+            throw new ValidationException("ID of the user must be valid");
+        }
+        
+        _tokenGenerator.RevokeToken();
+    }
+    public async Task<UserDto> GetUserById(long userId, CancellationToken ct)
+    {
+        var user = await _userRepository.GetUsersById(new[] { userId }, ct);
+        if (!user.Any())
+        {
+            throw new KeyNotFoundException("Cannot found a user");
+        }
+        return user.First().ToDto();
+    }
+
     /// <summary>
     /// Зарегистрировать пользователя
     /// </summary>
@@ -98,13 +142,37 @@ public class UserService : IUserService
         await AssignRefreshToken(refreshToken, user);
 
         var dto = user.ToDto();
-        dto.AccessToken = jwt;
         dto.RefreshToken = refreshToken.Token;
         
         return dto;
     }
-    public async Task<UserDto> UpdateUserAsync(long id, UpdateUserDto userDto, CancellationToken ct) => throw new NotImplementedException();
-    public async Task<bool> DeleteUserAsync(long id, CancellationToken ct) => throw new NotImplementedException();
+    /// <summary>
+    /// Обновить пользовательские данные
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="userDto"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public  Task<UserDto> UpdateUserAsync(long id, UpdateUserDto userDto, CancellationToken ct)
+    {
+        throw new NotImplementedException();
+        // var user = await _userRepository.GetOnlyUserByIdAsync(id, ct);
+        // if (user is null)
+        // {
+        //     throw new KeyNotFoundException($"Cannot found a user with ID: '{id}'");
+        // }
+        //
+        // var updatedUser = userDto.ToModel() 
+    }
+    /// <summary>
+    /// Удалить пользователя
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ct"></param>
+    /// <returns></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public Task<bool> DeleteUserAsync(long id, CancellationToken ct) => throw new NotImplementedException();
     
     private static void CheckRefreshToken(string refreshToken, User user)
     {

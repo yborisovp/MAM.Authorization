@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace MAM.Authorization.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class UserController: ControllerBase
 {
     private readonly IUserService _userService;
@@ -16,14 +16,14 @@ public class UserController: ControllerBase
         _userService = userService;
     }
 
-    [HttpGet]
+    [HttpPost("login")]
     public async Task<ActionResult<UserDto>> AuthorizeUser([Required][FromBody]LoginUserDto loginUserDto, CancellationToken ct)
     {
         var user = await _userService.LoginUserAsync(loginUserDto, ct);
         return Ok(user);
     }
     
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<UserDto>> RegisterUser([Required][FromBody]RegisterUserDto registerUserDto, CancellationToken ct)
     {
         var user = await _userService.RegisterUserAsync(registerUserDto, ct);
@@ -31,11 +31,18 @@ public class UserController: ControllerBase
     }
 
     [HttpPost]
-    [Authorize]
-    [Route("/logout")]
-    public async Task<ActionResult<string>> LogoutUser()
+    
+    [Route("logout")]
+    public async Task<ActionResult> LogoutUser(CancellationToken ct)
     {
-        return Ok("ТЫ АВТОРИЗОВАН!");
+        await _userService.LogoutUser(User.Claims, ct);
+        return NoContent();
+    }
+
+    [HttpGet("{id:long}")]
+    public async Task<ActionResult<UserDto>> GetUserById(long id, CancellationToken ct)
+    {
+        return await _userService.GetUserById(id, ct);
     }
     
 }

@@ -1,3 +1,5 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using AuthorizationLibrary.Context;
 using AuthorizationLibrary.Interfaces;
 using AuthorizationLibrary.Models;
@@ -25,6 +27,29 @@ internal class UserRepository : BaseRepository, IUserRepository
         return user;
     }
 
+    public async Task<User> GetOnlyUserByIdAsync(long id, CancellationToken ct)
+    {
+        await using var context = ContextFactory.CreateDbContext();
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == id, ct);
+        if (user is null)
+        {
+            throw new KeyNotFoundException($"User with this id: '{id}' cannot be found");
+        }
+        
+        return user;
+    }
+    
+    public async Task<ICollection<User>> GetUsersById(IEnumerable<long> ids, CancellationToken ct = default)
+    {
+        await using var context = ContextFactory.CreateDbContext();
+        var users = await GetFullUserQuery(context.Users).Where(u => ids.Contains(u.Id)).ToListAsync(ct);
+        if (!users.Any())
+        {
+            throw new KeyNotFoundException($"Cannot found users with provided IDs: '{JsonSerializer.Serialize(ids)}'");
+        }
+        return users;
+    }
+
     public async Task<User> RegisterUserAsync(User user, CancellationToken ct)
     {
         await using var context = ContextFactory.CreateDbContext();
@@ -39,8 +64,6 @@ internal class UserRepository : BaseRepository, IUserRepository
         entryEntity.State = EntityState.Modified;
         entryEntity.Property(u => u.Id).IsModified = false;
         entryEntity.Property(u => u.RegistrationDate).IsModified = false;
-        entryEntity.Property(u => u.RefreshToken).IsModified = false;
-        entryEntity.Property(u => u.RefreshTokenExpirationDate).IsModified = false;
         foreach (var userCredential in user.Credentials)
         {
             context.Entry(userCredential).State = EntityState.Unchanged;
@@ -62,7 +85,22 @@ internal class UserRepository : BaseRepository, IUserRepository
         await context.SaveChangesAsync(ct);
         return true;
     }
-    
+    public async Task RevokeToken(long userId, CancellationToken ct)
+    {
+        await using var context = ContextFactory.CreateDbContext();
+        var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId, ct);
+        if (user is null)
+        {
+            throw new KeyNotFoundException($"User with this id: '{userId}' cannot be found");
+        }
+        
+        user.RefreshToken = string.Empty;
+        user.RefreshTokenExpirationDate = DateTimeOffset.Now;
+
+        context.Users.Update(user);
+        await context.SaveChangesAsync(ct);
+    }
+
     private static IQueryable<User> GetFullUserQuery(DbSet<User> user)
     {
         return user.Include(u => u.Credentials)

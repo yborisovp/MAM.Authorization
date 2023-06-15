@@ -62,7 +62,7 @@ public static class MamAuthorizationConfiguration
                 ValidateIssuerSigningKey = true,
                 ValidIssuer = jwtOptionsSettings?.Issuer,
                 ValidAudience = jwtOptionsSettings?.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptionsSettings?.Key))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptionsSettings?.Key ?? string.Empty))
             };
         });
         

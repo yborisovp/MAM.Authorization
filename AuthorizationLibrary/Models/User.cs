@@ -6,7 +6,7 @@ namespace AuthorizationLibrary.Models;
 /// <summary>
 /// Модель пользователя 
 /// </summary>
-public class User
+public sealed class User
 {   /// <summary>
     /// Уникальный идентификатор пользователя
     /// </summary>
@@ -18,14 +18,13 @@ public class User
     /// Имя пользователя
     /// </summary>
     [MaxLength(65)]
-    public string Name { get; set; }
-    
-    
+    public required string Name { get; set; }
+
     /// <summary>
     /// Фамилия пользователя
     /// </summary>
     [MaxLength(75)]
-    public string SecondName { get; set; }
+    public required string SecondName { get; set; }
     
     /// <summary>
     /// Дата регистрации
@@ -47,6 +46,11 @@ public class User
     /// </summary>
     [MaxLength(500)]
     public string? AdditionalInfo { get; set; }
+    
+    /// <summary>
+    /// Роль пользователя
+    /// </summary>
+    public UserRole Role { get; set; }
 
     /// <summary>
     /// Токен обновления
@@ -60,5 +64,20 @@ public class User
     /// <summary>
     /// Виды пользовательской авторизации
     /// </summary>
-    public virtual ICollection<UserCredential> Credentials { get; set; } = new List<UserCredential>();
+    public ICollection<UserCredential> Credentials { get; set; } = new List<UserCredential>();
+}
+
+/// <summary>
+/// Роль пользователя
+/// </summary>
+public enum UserRole
+{
+    /// <summary>
+    /// Обычные пользователь
+    /// </summary>
+    Regular,
+    /// <summary>
+    /// Администратор
+    /// </summary>
+    Admin
 }

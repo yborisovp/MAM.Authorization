@@ -28,6 +28,7 @@ namespace AuthorizationLibrary.Migrations
                     last_modified_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     last_entered_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     additional_info = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    role = table.Column<int>(type: "integer", nullable: false),
                     refresh_token = table.Column<string>(type: "text", nullable: false),
                     refresh_token_expiration_date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
@@ -43,7 +44,7 @@ namespace AuthorizationLibrary.Migrations
                 {
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    email = table.Column<string>(type: "character varying(70)", maxLength: 70, nullable: false),
+                    email = table.Column<string>(type: "text", nullable: false),
                     user_id = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -65,10 +66,9 @@ namespace AuthorizationLibrary.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_credential_id = table.Column<long>(type: "bigint", nullable: false),
-                    discriminator = table.Column<string>(type: "character varying(34)", maxLength: 34, nullable: false),
+                    discriminator = table.Column<string>(type: "text", nullable: false),
                     authorization_type = table.Column<int>(type: "integer", nullable: true),
                     o_auth_token = table.Column<string>(type: "text", nullable: true),
-                    o_auth_client_id = table.Column<string>(type: "text", nullable: true),
                     password_hash = table.Column<string>(type: "text", nullable: true),
                     last_modified_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },

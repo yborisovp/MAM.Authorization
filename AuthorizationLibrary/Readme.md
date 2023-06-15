@@ -8,11 +8,15 @@ It is part of the service for buying and selling cars and provides an opportunit
 
 # Миграции для библиотеки
 
-Создатьь ммиграцию
-```
- dotnet ef migrations add InitialCreate --context AuthorizationDatabaseContext --output-dir Migrations/  --project ./AuthorizationLibrary --startup-project ./MAM.Authorization
+Создать миграцию
+``` shell
+ dotnet ef migrations add InitialCreate --context AuthorizationDatabaseContext --output-dir Migrations/  --project ../AuthorizationLibrary --startup-project ../MAM.Authorization
 ```
 Создать скрипт миграции
+``` shell
+dotnet ef migrations script --context AuthorizationDatabaseContext --project ../AuthorizationLibrary --startup-project ../MAM.Authorization  -o ../AuthorizationLibrary/Migrations/SQL/1.InitialCreate.sql
 ```
-dotnet ef migrations script --context AuthorizationDatabaseContext --project ./AuthorizationLibrary --startup-project ./MAM.Authorization  -o ./AuthorizationLibrary/Migrations/SQL/1.InitialCreate.sql
+Опубликовать пакет
+```shell
+dotnet nuget push bin/Debug/AuthorizationLibrary.VERSION.nupkg --api-key your-api-key --source https://api.nuget.org/v3/index.json
 ```

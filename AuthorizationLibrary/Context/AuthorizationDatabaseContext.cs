@@ -22,7 +22,7 @@ public class AuthorizationDatabaseContext : DbContext
     /// Конструктор контекста
     /// </summary>
     /// <param name="options"></param>
-    public AuthorizationDatabaseContext(DbContextOptions options)
+    public AuthorizationDatabaseContext(DbContextOptions<AuthorizationDatabaseContext> options)
         : base(options)
     {
     }
@@ -32,14 +32,23 @@ public class AuthorizationDatabaseContext : DbContext
     /// </summary>
     public DbSet<User> Users { get; set; } = null!;
 
+    /// <summary>
+    /// Авторизационные данные
+    /// </summary>
     public DbSet<UserCredential> Credentials { get; set; } = null!;
 
+    /// <summary>
+    /// Пререопределение создания модели
+    /// </summary>
+    /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserCredential>()
                     .HasIndex(u => u.Email)
                     .IsUnique();
+        
         modelBuilder.HasDefaultSchema(AuthorizationSchema);
+        
         modelBuilder.Entity<ExternalAuthorizationProvider>()
                     .HasBaseType<AuthorizationProvider>();
         modelBuilder.Entity<PasswordAuthorizationProvider>()

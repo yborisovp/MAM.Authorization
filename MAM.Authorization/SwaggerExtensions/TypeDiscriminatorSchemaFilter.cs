@@ -1,8 +1,9 @@
+using CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
 using CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
+namespace MAM.Authorization.SwaggerExtensions;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class TypeDiscriminatorSchemaFilter : ISchemaFilter

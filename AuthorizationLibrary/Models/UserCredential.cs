@@ -18,14 +18,20 @@ public class UserCredential
     /// <summary>
     /// Электронная почта
     /// </summary>
-    [MaxLength(70)]
-    public required string Email { get; set; }
+    [EmailAddress]
+    public required string? Email { get; set; }
 
     /// <summary>
     /// Провайдеры авторизации
     /// </summary>
     public virtual AuthorizationProvider AuthorizationProviders { get; set; } = null!;
     
+    /// <summary>
+    /// Id пльзователя
+    /// </summary>
     public long UserId { get; set; }
-    public virtual User User { get; set; }
+    /// <summary>
+    /// Обхект пользователя
+    /// </summary>
+    public virtual User User { get; set; } = null!;
 }

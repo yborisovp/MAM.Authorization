@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AuthorizationLibrary.Models.AuthorizationProviders;
 
 /// <summary>
-/// 
+/// Базовый класс авторизации
 /// </summary>
 public abstract class AuthorizationProvider
 {

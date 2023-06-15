@@ -2,6 +2,9 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using AuthorizationLibrary.Configuration;
 using CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
+using MAM.Authorization.SwaggerExtensions;
+using MAM.WebApi.Middleware;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +26,7 @@ builder.Services.AddCors(options => options.AddPolicy(name: customPolicyName,
                          .SetIsOriginAllowed(_ => true)
                          .AllowCredentials();
     }));
+
 
 builder.Services.AddSingleton<IJsonHierarchyRootsProvider, JsonHierarchyRootsProvider>();
 builder.Services.AddSingleton<IJsonHierarchiesProvider, JsonHierarchiesProvider>();
@@ -46,6 +50,8 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 });
 
+builder.Services.AddTransient<ProblemDetailsFactory, CustomProblemDetailsFactory>();
+builder.Services.AddProblemDetails();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -54,8 +60,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 
 app.UseCors(customPolicyName);
-app.UseHttpsRedirection();
-
+app.UseExceptionHandler();
 app.UseAuthorization();
 
 app.MapControllers();

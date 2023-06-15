@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using JsonHierarchyRoot = CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models.JsonHierarchyRoot;
 
-namespace CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
+namespace MAM.Authorization.SwaggerExtensions;
 
 public interface IJsonHierarchyRootsProvider
 {

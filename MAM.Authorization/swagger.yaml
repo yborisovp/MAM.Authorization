@@ -1,0 +1,383 @@
+openapi: 3.0.1
+info:
+  title: AuthorizationService
+  description: Authorization Service for MAM
+  version: v1
+paths:
+  /api/User/login:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: DTO для входа
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordLoginDto'
+                - $ref: '#/components/schemas/ThirdPartyLogin'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyLogin
+                    - PasswordLoginDto
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyLogin: '#components/schemas/ThirdPartyLogin'
+                  PasswordLoginDto: '#components/schemas/PasswordLoginDto'
+          text/json:
+            schema:
+              title: DTO для входа
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordLoginDto'
+                - $ref: '#/components/schemas/ThirdPartyLogin'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyLogin
+                    - PasswordLoginDto
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyLogin: '#components/schemas/ThirdPartyLogin'
+                  PasswordLoginDto: '#components/schemas/PasswordLoginDto'
+          application/*+json:
+            schema:
+              title: DTO для входа
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordLoginDto'
+                - $ref: '#/components/schemas/ThirdPartyLogin'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyLogin
+                    - PasswordLoginDto
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyLogin: '#components/schemas/ThirdPartyLogin'
+                  PasswordLoginDto: '#components/schemas/PasswordLoginDto'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+  /api/User/register:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json:
+            schema:
+              title: DTO для регистрации
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordRegistration'
+                - $ref: '#/components/schemas/ThirdPartyRegistration'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyRegistration
+                    - PasswordRegistration
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyRegistration: '#components/schemas/ThirdPartyRegistration'
+                  PasswordRegistration: '#components/schemas/PasswordRegistration'
+          text/json:
+            schema:
+              title: DTO для регистрации
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordRegistration'
+                - $ref: '#/components/schemas/ThirdPartyRegistration'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyRegistration
+                    - PasswordRegistration
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyRegistration: '#components/schemas/ThirdPartyRegistration'
+                  PasswordRegistration: '#components/schemas/PasswordRegistration'
+          application/*+json:
+            schema:
+              title: DTO для регистрации
+              required:
+                - $type
+              oneOf:
+                - $ref: '#/components/schemas/PasswordRegistration'
+                - $ref: '#/components/schemas/ThirdPartyRegistration'
+              properties:
+                $type:
+                  enum:
+                    - ThirdPartyRegistration
+                    - PasswordRegistration
+                  type: string
+              discriminator:
+                propertyName: $type
+                mapping:
+                  ThirdPartyRegistration: '#components/schemas/ThirdPartyRegistration'
+                  PasswordRegistration: '#components/schemas/PasswordRegistration'
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+  /api/User/logout:
+    post:
+      tags:
+        - User
+      responses:
+        '200':
+          description: Success
+  '/api/User/{id}':
+    get:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/UserDto'
+components:
+  schemas:
+    LoginUserDto:
+      title: DTO для входа
+      required:
+        - $type
+        - email
+      type: object
+      properties:
+        $type:
+          enum:
+            - ThirdPartyLogin
+            - PasswordLoginDto
+          type: string
+        email:
+          title: Электронная почта
+          maxLength: 70
+          minLength: 1
+          type: string
+      additionalProperties: false
+      discriminator:
+        propertyName: $type
+        mapping:
+          ThirdPartyLogin: '#components/schemas/ThirdPartyLogin'
+          PasswordLoginDto: '#components/schemas/PasswordLoginDto'
+    PasswordLoginDto:
+      title: DTO для входа
+      required:
+        - $type
+        - password
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/LoginUserDto'
+      properties:
+        password:
+          title: Пароль
+          minLength: 1
+          type: string
+        $type:
+          type: string
+          default: PasswordLoginDto
+      additionalProperties: false
+    PasswordRegistration:
+      title: DTO для регистрации
+      required:
+        - $type
+        - password
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/RegisterUserDto'
+      properties:
+        password:
+          title: Пароль
+          minLength: 1
+          type: string
+        $type:
+          type: string
+          default: PasswordRegistration
+      additionalProperties: false
+    RegisterUserDto:
+      title: DTO для регистрации
+      required:
+        - $type
+        - email
+        - name
+        - secondName
+      type: object
+      properties:
+        $type:
+          enum:
+            - ThirdPartyRegistration
+            - PasswordRegistration
+          type: string
+        email:
+          title: Электронная почта
+          maxLength: 70
+          minLength: 1
+          type: string
+        name:
+          title: Имя пользователя
+          maxLength: 70
+          minLength: 1
+          type: string
+        secondName:
+          title: Фамилия пользователя
+          maxLength: 70
+          minLength: 1
+          type: string
+      additionalProperties: false
+      discriminator:
+        propertyName: $type
+        mapping:
+          ThirdPartyRegistration: '#components/schemas/ThirdPartyRegistration'
+          PasswordRegistration: '#components/schemas/PasswordRegistration'
+    ThirdPartyAuthorizationType:
+      title: Поддерживаемые типы авторизации
+      enum:
+        - Google
+        - Yandex
+        - Vk
+      type: string
+    ThirdPartyLogin:
+      title: DTO для входа
+      required:
+        - $type
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/LoginUserDto'
+      properties:
+        oAuthToken:
+          title: Токен внешней авторизации
+          type: string
+          nullable: true
+        oAuthClientId:
+          title: Уникальный идентификатор клиента во внешней системе
+          type: string
+          nullable: true
+        $type:
+          type: string
+          default: ThirdPartyLogin
+      additionalProperties: false
+    ThirdPartyRegistration:
+      title: DTO для регистрации
+      required:
+        - $type
+        - authorizationType
+        - oAuthCode
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/RegisterUserDto'
+      properties:
+        authorizationType:
+          $ref: '#/components/schemas/ThirdPartyAuthorizationType'
+        oAuthCode:
+          title: Код внешней авторизации
+          minLength: 1
+          type: string
+        $type:
+          type: string
+          default: ThirdPartyRegistration
+      additionalProperties: false
+    UserDto:
+      title: DTO пользователя
+      required:
+        - fullName
+        - role
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        fullName:
+          title: Полное имя пользователя
+          maxLength: 65
+          minLength: 1
+          type: string
+        registrationDate:
+          title: Дата регистрации
+          type: string
+          format: date-time
+        lastModifiedDate:
+          title: Дата последнего изменения данных о пользователе
+          type: string
+          format: date-time
+          nullable: true
+        lastEnteredAt:
+          title: Дата последнего входа
+          type: string
+          format: date-time
+        additionalInfo:
+          title: Дополнительная информация о пользователе
+          maxLength: 500
+          type: string
+          nullable: true
+        role:
+          $ref: '#/components/schemas/UserRoleEnum'
+        accessToken:
+          type: string
+          nullable: true
+        refreshToken:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+      additionalProperties: false
+    UserRoleEnum:
+      enum:
+        - Regular
+        - Admin
+      type: string

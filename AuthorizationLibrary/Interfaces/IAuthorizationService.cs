@@ -9,9 +9,10 @@ public interface IAuthorizationService
     /// Получить токен доступа
     /// </summary>
     /// <param name="email">Электронная почта</param>
+    /// <param name="refreshToken">Токен обновления</param>
     /// <param name="ct">Токен прерывания</param>
     /// <returns>Токен авторизации</returns>
-    Task<string> GetAccessTokenAsync(string email, CancellationToken ct);
+    Task<string> GetAccessTokenAsync(string email, string refreshToken, CancellationToken ct);
     
     /// <summary>
     /// Обновить токен доступа

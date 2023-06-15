@@ -21,7 +21,7 @@ public static class DtoToDbUserMappings
     {
         return registerUserDto switch
         {
-            PasswordRegistration passwordRegistration => passwordHash is null ? throw new ArgumentNullException("Password requried with authorization with password") : new User
+            PasswordRegistration passwordRegistration => passwordHash is null ? throw new ArgumentNullException(passwordHash, "Password requried in authorization with password") : new User
             {
                 Name = passwordRegistration.Name,
                 SecondName = passwordRegistration.SecondName,
@@ -38,7 +38,8 @@ public static class DtoToDbUserMappings
                             LastModifiedTime = DateTime.UtcNow
                         }
                     }
-                }
+                },
+                Role = UserRole.Regular
             },
             ThirdPartyRegistration thirdPartyRegistration => new User
             {
@@ -53,11 +54,11 @@ public static class DtoToDbUserMappings
                         AuthorizationProviders = new ExternalAuthorizationProvider
                         {
                             AuthorizationType = thirdPartyRegistration.AuthorizationType.ToAuthorizationTypeModel(),
-                            OAuthToken = thirdPartyRegistration.OAuthToken,
-                            OAuthClientId = thirdPartyRegistration.OAuthClientId
+                            OAuthToken = thirdPartyRegistration.OAuthCode,
                         }
                     }
-                }
+                },
+                Role = UserRole.Regular
             },
             _ => throw new KeyNotFoundException("Not supported registration type")
 

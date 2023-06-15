@@ -1,6 +1,7 @@
+using CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
 using JsonHierarchy = CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models.JsonHierarchy;
 
-namespace CEC.DL.Evaluation.ManagementService.SwaggerExtensions;
+namespace MAM.Authorization.SwaggerExtensions;
 
 public interface IJsonHierarchiesRepository
 {

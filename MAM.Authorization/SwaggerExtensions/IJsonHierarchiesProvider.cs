@@ -1,4 +1,5 @@
 using CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models.Discriminators;
+using MAM.Authorization.SwaggerExtensions;
 using DerivedTypeInfo = CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models.DerivedTypeInfo;
 using JsonHierarchy = CEC.DL.Evaluation.ManagementService.SwaggerExtensions.Models.JsonHierarchy;
 

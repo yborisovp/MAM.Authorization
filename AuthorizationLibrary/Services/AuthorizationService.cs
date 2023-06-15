@@ -27,15 +27,21 @@ public class AuthorizationService: IAuthorizationService
     /// Авторизовать пользователя в текущем сервисе
     /// </summary>
     /// <param name="email"></param>
+    /// <param name="refreshToken"></param>
     /// <param name="ct"></param>
     /// <returns></returns>
     /// <exception cref="KeyNotFoundException"></exception>
-    public async Task<string> GetAccessTokenAsync(string email, CancellationToken ct)
+    public async Task<string> GetAccessTokenAsync(string email, string refreshToken,  CancellationToken ct)
     {
         var user = await _userRepository.GetUserByEmail(email, ct);
         if (user is null)
         {
             throw new KeyNotFoundException($"User with this email: '{email}' cannot be found");
+        }
+
+        if (!user.RefreshToken.Equals( refreshToken, StringComparison.OrdinalIgnoreCase))
+        {
+            throw new InvalidDataException("Refresh tokens does not match");
         }
         
         var jwt = _tokenGenerator.GenerateJwt(user);
@@ -52,6 +58,10 @@ public class AuthorizationService: IAuthorizationService
     public async Task<string> RefreshTokenAsync(string refreshToken, string email, CancellationToken ct)
     {
         var user = await _userRepository.GetUserByEmail(email, ct);
+        if (user is null)
+        {
+            throw new KeyNotFoundException($"User with email: '{email}' cannot be found");
+        }
         CheckRefreshToken(refreshToken, user);
 
         return _tokenGenerator.GenerateJwt(user);

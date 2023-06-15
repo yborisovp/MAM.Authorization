@@ -18,7 +18,7 @@ namespace AuthorizationLibrary.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Authorization")
-                .HasAnnotation("ProductVersion", "8.0.0-preview.3.23174.2")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -32,8 +32,7 @@ namespace AuthorizationLibrary.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("character varying(34)")
+                        .HasColumnType("text")
                         .HasColumnName("discriminator");
 
                     b.Property<long>("UserCredentialId")
@@ -95,6 +94,10 @@ namespace AuthorizationLibrary.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("registration_date");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer")
+                        .HasColumnName("role");
+
                     b.Property<string>("SecondName")
                         .IsRequired()
                         .HasMaxLength(75)
@@ -118,8 +121,7 @@ namespace AuthorizationLibrary.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(70)
-                        .HasColumnType("character varying(70)")
+                        .HasColumnType("text")
                         .HasColumnName("email");
 
                     b.Property<long>("UserId")
@@ -146,11 +148,6 @@ namespace AuthorizationLibrary.Migrations
                     b.Property<int>("AuthorizationType")
                         .HasColumnType("integer")
                         .HasColumnName("authorization_type");
-
-                    b.Property<string>("OAuthClientId")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("o_auth_client_id");
 
                     b.Property<string>("OAuthToken")
                         .IsRequired()
